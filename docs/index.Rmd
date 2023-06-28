@@ -1,0 +1,263 @@
+---
+title: "Bellabeat Capstone Case Study"
+author: "Ryan Taylor"
+date: "2023-06-07"
+output: html_document
+---
+
+## **Bellabeat - How Can a Wellness Technology Company Play it Smart?**
+
+### **1.0 Project Introduction and Data Description**
+
+### **1.1 Introduction**
+
+This project is a data analytics case study completed as part of the capstone course for the Google Data Analytics Professional certificate program. This case study was completed to demonstrate the professional data analysis skills I have developed through completing the certification as well as during my time as a student of Memorial University's Business Administration program. In this analysis, I will be analyzing a data set provided to come up with valuable insights and recommendations that stakeholders of Bellabeat (the company the case study is examining) could use to help inform their future marketing strategy. This analysis was mainly conducted using spreadsheet tools (Microsoft Excel) as well as RStudio for larger data manipulation and visualization creation.   
+
+### **1.2 Business Task Description**
+
+Bellabeat is a high-tech company that manufactures health-focused smart products for women such as wellness trackers, wellness watches, smart water bottles, and more. In this analysis, we will be examining publicly available smart device usage data to learn new insights and trends into how people are using non-Bellabeat smart devices. Additionally, we will then show how these new insights can be applied to improve existing Bellabeat products by presenting our findings to key members of the executive team. The following questions will help guide the analysis:
+
+1. What are some trends in smart device usage?
+2. How could these trends apply to Bellabeat customers?
+3. How could these trends help influence Bellabeat’s marketing strategy
+
+### **1.3 Primary Stakeholders**
+
+This report will be presented to the following key stakeholders at Bellabeat:
+
+1. **Urška Sršen**: Bellabeat’s cofounder and Chief Creative Officer
+2. **Sando Mur**: Mathematician and Bellabeat’s cofounder
+
+### **1.4 Description of Data Sources Used**
+
+The main data set used is the FitBit Fitness Tracker Data available publicly through Kaggle. The data was collected between the dates 4/12/2016 to 5/9/2016.This data is licensed through CCO 1.0 Universal Public Domain Dedication. The data is stored in 18 different .csv files, with some of those files containing duplicate data stored in wide and long style formats respectively. Furthermore, the data is broken down into 3 categories based upon daily amounts, hourly amounts, and minute amounts. It is also important to mention that data collected from fitness trackers such as fitbit devices are noted to have a margin of error of around **+/- 10%**.
+
+It is important to note the general unreliability of the data used. Following the ROCCC (reliability, originality, comprehensive, current, cited) method for determining if a data set is credible for business purposes, this data struggles to pass the checks used in this method:
+
+* **Reliability**: While there is nothing indicating the data is unreliable, the relatively small sample size of 30 should be noted.
+* **Originality**: Data was collected via a secondary source (Fitbit trackers) and not by Bellabeat themselves.
+* **Comprehensive**: While this data set can help answer some important questions related to the business task, it would be recommended to correlate findings with data from another data source before making any actionable recommendations based on the current data source used.
+* **Current**: The data was collected in 2016, which given significant lifestyle changes that occurred due to the COVID-19 pandemic it may indicate that the data is outdated.
+* **Cited**: As noted, the data is licenced and available through the CC0: Public Domain.
+
+### **1.5 Data Limitations**
+
+* Data was collected in 2016, may be less relevant due to significant lifestyle changes that have occurred since the COVID-19 pandemic 
+* Gender is not included in the information collected in the dataset
+* The data collected has a relatively small sample size of 30
+* Physical tracking devices are noted to have a margin of error of +/- 10%
+
+### **2.0 Data Cleaning Process Documentation**
+
+### **2.1 Step 1 - Spreadsheet Cleaning and Manipulation of Data**
+
+**DailyActivity_merged.csv cleaning:**
+
+* Renamed dailyActivity_merged CSV file to **daily_activity_merged_v1**
+* Removed **LoggedActiveDistance** and **SedantaryActiveDistance** columns from daily_activity_merged_v1 spreadsheet due to lack of data
+* Used conditional formatting to highlight cells in the **TotalSteps** column that are entered as 0 to search for and remove possible errors
+* Removed all rows from spreadsheet with cells in the **TotalSteps** column entered as 0 due to possible errors and missing data values
+* Used conditional formatting to highlight cells in the **TotalSteps** column that are entered as less than 100 to search for and remove possible errors
+* Removed all rows from spreadsheet with cells in the **TotalSteps** column entered as less than 100 due to possible errors and outlier effect
+* Removed column **TrackerDistance** due to it being a duplicate of the **TotalDistance** column
+
+**sleepDay_merged.csv cleaning:**
+
+* Renamed sleepDay_merged CSV file to **sleep_day_merged_v1**
+* Removed **TotalSleepRecords** column due to it being irrelevant for analysis
+* Added column **TimeNotAsleep**, which subtracts numbers in the **TotalTimeInBed** column from the **TotalMinutesAsleep** column to find how many minutes a person is in bed for without actually being asleep
+* Removed all rows from id 2320127002, 1844505072, and 7007744171 due to the outlier effect as well as lack of sample size
+* Used conditional formatting to highlight cells in the **TimeNotAsleep** column that are over 250 minutes to search for potential outliers and errors
+* Removed possible outliers from spreadsheet with cells in the **TimeNotAsleep** column over 250 minutes
+* Removed all rows from id 3977333714 due to all entries in the **TimeNotAsleep** column being abnormally long, possibly due to an error with the devices sleep tracking.
+
+**hourlySteps_merged cleaning:**
+
+* Renamed hourlySteps_merged CSV file to **hourly_steps_merged_v1**
+
+**hourlyIntensties_merged cleaning:**
+
+* Renamed hourlyIntensities_merged CSV file to **hourly_intensities_merged_v1**
+
+**hourlyCalories_merged cleaning:**
+
+* Renamed hourlyCalories_merged CSV file to **hourly_calories_merged_v1**
+
+### **2.2 Step 2 - Importing, Cleaning, and Manipulation of Data in RStudio**
+
+* Installed and loaded R package ‘tidyverse’ into RStudio to prepare for additional data cleaning and manipulation
+
+```{r}
+install.packages('tidyverse')
+library(tidyverse)
+```
+
+* Uploaded cleaned **daily_activity_merged_v1.csv** and **sleep_day_merged_v1.csv** files to R using the read_csv() function. Assigned names **daily_activity** and **sleep_day** to each uploaded data set respectively
+
+```{r}
+daily_activity <- read_csv("daily_activity_merged_v1.csv")
+sleep_day <- read_csv("sleep_day_merged_v1.csv")
+```
+
+* Renamed the TimeUntilFirstStep column in the sleep_day dataset to **TimeNotAsleep**
+
+```{r}
+sleep_day <- rename(sleep_day, TimeNotAsleep = TimeUntilFirstStep)
+```
+
+* Uploaded **hourly_steps_merged_v1.csv**, **hourly_intensities_merged_v1.csv** and **hourly calories_merged_v1.csv** files to R using the read_csv() function. Assigned names **hourly_steps**, **hourly_intensities**, and **hourly_calories** to each uploaded dataset respectively
+
+```{r}
+hourly_calories <- read.csv("hourly_calories_merged_v1.csv")
+hourly_intensities <- read.csv("hourly_intensities_merged_v1.csv")
+hourly_steps <- read.csv("hourly_steps_merged_v1.csv")
+```
+
+* Explored key tables to ensure data integrity after import by using the glimpse() and colnames() functions to check that the structure and data types of each column were imported correctly. As an example:
+
+```{r}
+colnames(daily_activity)
+glimpse(daily_activity)
+```
+
+* Used Id column to merge data from daily_activity and sleep_day data sets using the merge() function to create the **combined_data** data set for further analysis.
+
+```{r}
+combined_data <- merge(sleep_day, daily_activity, by="Id")
+```
+
+* Used the n_distinct() function on all data sets and determined that there are 33 unique users recorded in the daily_activity data set and 20 unique users in the sleep_day and combined_data data set
+
+```{r}
+n_distinct(daily_activity$Id)
+n_distinct(sleep_day$Id)
+n_distinct(combined_data$Id)
+```
+
+* Used the mdy_hms() function found in the ‘lubridate’ R package to convert cells in the **ActivityHour** column from a character/string data type to a date-time data type in the hourly_steps, hourly_calories, and hourly_intensities data sets
+
+```{r}
+library(lubridate)
+hourly_steps$ActivityHour <- mdy_hms(hourly_steps$ActivityHour)
+hourly_calories$ActivityHour <- mdy_hms(hourly_calories$ActivityHour)
+hourly_intensities$ActivityHour <- mdy_hms(hourly_intensities$ActivityHour)
+```
+
+* Used Id and ActivityHour column to merge data from the hourly_steps, hourly_intensities, and hourly_calories data sets using the merge() function to create the **hourly_combined_data** data set for further analysis. This was done using the incremental approach to merging data as follows:
+
+```{r}
+hourly_combined_data <- merge(hourly_steps, hourly_calories, by = c('Id', 'ActivityHour'))
+hourly_combined_data <- merge(hourly_combined_data, hourly_intensities, by = c('Id', 'ActivityHour'))
+```
+
+* Added new column **Hour** to hourly_combined_data dataset by separating the hour from the dates provided in the ActivityHour column. Used the sprintf() function to show the hour in a 24 hour clock format
+
+```{r}
+hourly_combined_data$Hour <- hour(hourly_combined_data$ActivityHour)
+hourly_combined_data$Hour <- sprintf("%02d:00:00", hourly_combined_data$Hour)
+```
+
+### **3.0 Data Analyzation**
+
+### **3.1 General Summary Statistics Details and Insights**
+
+**daily_activity dataset:**
+
+```{r}
+daily_activity %>%  
+  select(TotalSteps,
+         TotalDistance,
+         SedentaryMinutes) %>%
+  summary()
+```
+
+* The average number of steps taken in a day is **8417**, below the recommended amount of 10,000 steps per day
+* The average total distance traveled by fitbit users in a day is **6.05 miles**
+* The average time a user is sedentary in a day is **953.6 minutes** (i.e, 15.9 hours)
+
+**sleep_day dataset:**
+
+```{r}
+sleep_day %>%  
+  select(TotalMinutesAsleep, 
+         TotalTimeInBed, TimeNotAsleep) %>%
+  summary()
+```
+
+* Users spend an average of **430.7 minutes** a day asleep (i.e 7.18 hours), but spend an average of **458.6 minutes** (i.e 7.64 hours) a day actually in bed
+* It takes users an average of **27.9 minutes** to actually get out of bed and take a step after any recorded sleep session
+
+### **3.2 Specific Trends and Relationships**
+
+* Created pivot table to sum the amounts of steps taken per day. Then took the average of this amount for each user and classified them as **VeryActive** (average of 12500 and more steps daily), **FairlyActive** (average of 12499-10000 steps daily), **LightlyActive** (average of 9999-7500 steps daily), **LowActive** (average of 7499-5000 steps), and **Sedentary** (average of 4999 steps or less). Using these categories and COUNTIF functions based upon the average amount of steps taken by each user in a day, we can see what percentage of users fall into each category visualized in the pie chart below:
+
+![](fitbit_segment_chart_v1.png)
+
+* Additionally, we can add the VeryActive, FairlyActive, and LightlyActive segments together to create the **‘GenerallyActiveSegment’** and the LowActive and Sedentary segments together to create the **‘LowAndSedentarySegment’** and can see that 45% of users examined in this dataset who used ‘fitbits’ in the time period examined fall into the ‘sedentary’ and ‘low active’ market segments, based upon the average amount of steps taken in a day:
+
+![](fitbit_segment_chart_v2.png)
+
+* Created a pivot table to sum the total amount of active minutes (by adding the sums of the VeryActiveMinutes, FairlyActiveMinutes, and LightlyActiveMinutes columns) for each user and determined that the *majority portion of active minutes recorded for each user falls under LightlyActiveMinutes*
+
+* The longer the user is asleep, the longer it takes for them to actually get out of bed and take their first step. In other words, *there is a positive relationship between the TotalMinutesAsleep and TimeNotAsleep column*
+
+```{r}
+ggplot(data = sleep_day, aes(x = TotalMinutesAsleep, y = TimeNotAsleep)) +
+  geom_point() +
+  geom_smooth(method = 'lm', color = 'red') +
+  labs(title = 'Total Minutes Asleep Vs Total Time in Bed', 
+       x = "Total Minutes Asleep", y = "Time Not Asleep")
+```
+
+* The more steps a person takes in a day leads to more calories burned:
+
+```{r}
+ggplot(data=combined_data, aes(x=TotalSteps, y=Calories)) + geom_point() + 
+  geom_smooth(method='lm', color = 'red') + 
+  labs(title = 'Daily Total Steps vs Calories Burned', x = 'Total Steps',
+       y= 'Calories Burned')
+```
+
+* Additionally, the steps a person takes hourly is positively correlated to the amount of calories burned and the total intensity exhibited by users:
+
+```{r}
+ggplot(data = hourly_combined_data, aes(x = StepTotal, y = Calories, color = TotalIntensity)) +
+  geom_point(size=1) + geom_smooth(method=lm, color = 'red', linewidth=1) + 
+  labs(title = 'Hourly Calories vs Hourly Steps Vs Hourly Total Intensity', x = "Hourly Steps", y = "Hourly Calories", color = "Total Intensity") +
+  theme(plot.title = element_text(size=12))
+```
+
+* A user exhibits the highest levels of average total intensity between the times **11-2pm** and **4-7pm**:
+
+```{r}
+ggplot(data=hourly_combined_data, aes(x = Hour, y = AverageIntensity)) +
+  geom_histogram(stat = "identity", fill = ifelse((hourly_combined_data$Hour >= 12 & hourly_combined_data$Hour <= 15) | (hourly_combined_data$Hour >= 17 & hourly_combined_data$Hour <= 20), "red", "blue")) +
+  theme(axis.text.x = element_text(angle = 60)) +
+  labs(title = "Average Total Intensity vs. Time",
+       x = "Time",
+       y = "Average Total Intensity")
+```
+
+### **4.0 Conclusion and Recommendations**
+
+### **4.1 Recommendations**
+
+**Reccomendation 1: Develop New Devices and Tools That Can Help Users in the 'Low Active' and 'Sedentary' Market Segments**
+
+* The users of fitness smart devices do not all fall into the **‘generally active’** market segment. A large portion (**45%**) of users in the dataset actually fall into the **‘low active’** and **‘sedentary’** market segments when looking at activity levels based upon the average amount of steps taken per day.     + This indicates an opportunity to appeal to the low active and sedentary market segments by offering lifestyle tracking options, smart device measurement tools, and other devices/tools that appeals to those in Bellabeat's female targeted demographic who may also fall into the ‘low active’ and ‘sedentary’ market segments. For example, it is recommended that features such as menstrual tracking and pill tracking be added to the Bellabeat app.
+
+**Reccomendation 2: Increase General Connectivity of all Bellabeat Devices to Exploit Potential Competitive Advantages in the Targeted Market Segment**
+
+* General connectivity of all Bellabeat smart devices to the app should be a priority so that Bellabeat can leverage the data collected from users into valuable insights that the users themselves can use to better their lifestyle. A majority of users of fitness trackers still fall into the **‘generally active’** market segment who commonly seek out ways to improve their lifestyle and health. By using data obtained from Bellabeat's already diverse range of smart devices, there will be ways to design and provide advanced lifestyle tracking measurement tools to users in this market segment that other competitors in the market may not be able to.
+    + For example, by examining data from Fitbit users, we can see that the more steps a person takes in an hour leads to more calories burned but also a higher recorded total intensity level which can dehydrate users more quickly than usual. It is recommended to add notifications to the Bellabeat app that will remind users to take breaks after high intensity periods to drink from their Bellabeat Spring water bottle, leveraging data from one Bellabeat device (the Leaf and Time fitness tracker devices) to help improve the utility of another Bellabeat device (the Bellabeat Spring water bottle).
+    + The longer a user is asleep, the longer it takes for them to actually get out of bed and take their first step of the day. It is recommended for Bellabeat to use the Bellabeat app to send users push notifications as encouragement for users to get up and on the move after a long sleeping period.
+    + The highest intensity levels are exhibited between the times 11-2pm and 4-7pm. It is recommended that users are prompted and notified to get on the move outside of their usual high intensity intervals so users are given a clear strategy to help them increase their steps taken and calories burned per day.
+
+**Reccomendation 3: Use Positive Reinforcement Techniques in the Bellabeat App and other Devices to Encourage User Activity and Engagement**
+
+* As should be expected, the more steps a person takes in a day leads to more calories burned. It is recommended that Bellabeat highlight this positive correlation along with others like it in the app through various different visualizations to help encourage users to stay active and on the move while they use Bellabeat tracking devices.
+    + Recommend adding vibration and/or sound functionality to the Bellabeat Leaf or Time devices that could signal to users when their step and calorie burning goal has been reached, and to encourage users to keep going when their step intensity levels have decreased. Additionally, this added functionality can serve as a form of positive reinforcement for users after completing their daily or weekly activity tasks (for example, a specific vibration pattern and song of your choice could play once a user has reached their step goal for the day).
+
+### **4.2 Conclusion**
+
+The most important insight gathered from this data analysis showed that there was a *surprisingly large segment of users who have used Fitbit devices that would not fall into the 'generally active' market segment as expected*. This insight can be used to inform Bellabeat's software developers and product engineers that there is a substantial market of fitness device users who may be interested in other lifestyle tracking tools and devices that can help them beyond the basic physical activity and sleep tracking that most other competitors in the market focus on. Additonally, Bellabeat's marketing team can use this insight to develop strategies for marketing campaigns that appeal to the the potentially untapped segment of women in the 'low and sedentary' market segments who use lifestyle tracking devices and tools. While those in the 'generally active' market segment should still be valued, this case study shows that there is potential for Bellabeat to appeal to a broader market of users that want tools that can help them improve their lifestyle beyond basic physical activity and sleep tracking measurements.
