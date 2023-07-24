@@ -29,7 +29,9 @@ My name is Ryan Taylor and I am a dedicated and results-driven analytics profess
 
 - **Degree**: Bachelor of Business Administration (Honours)
 - **Institution**: Memorial University of Newfoundland
-- **Year**: 2021
+- **Year Graduated**: 2021
+- **Accomplishments**: Faculty of Business Administration Dean's List 2018-2019, 2019-2020, 2020-2021
+- **Scholarships**: Recipient of the 2018 Unifor Scholarship and 2021 Faculty of Business Administration Associates' Award, both rewarded for outstanding academic achievement
 
 ## Certifications
 
