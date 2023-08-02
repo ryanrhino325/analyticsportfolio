@@ -11,7 +11,7 @@ output: html_document
 
 ### **1.1 Introduction**
 
-This project is a data analytics case study completed as part of the capstone course for the Google Data Analytics Professional certificate program. This case study was completed to demonstrate the professional data analysis skills I have developed through completing the certification as well as during my time as a student of Memorial University's Business Administration program. In this analysis, I will be analyzing a data set provided to come up with valuable insights and recommendations that stakeholders of Bellabeat (the company the case study is examining) could use to help inform their future marketing strategy. This analysis was mainly conducted using spreadsheet tools (Microsoft Excel) as well as RStudio for larger data manipulation and visualization creation.   
+This project is a data analytics case study completed as part of the capstone course for the Google Data Analytics Professional Certificate program. This case study was completed to demonstrate the professional data analysis skills I have developed through completing the certification as well as during my time as a student of Memorial University's Business Administration program. In this analysis, I will be analyzing a data set provided to come up with valuable insights and recommendations that stakeholders of Bellabeat (the company the case study is examining) could use to help inform their future marketing strategy. This analysis was mainly conducted using spreadsheet tools (Microsoft Excel) as well as RStudio for larger data manipulation and visualization creation.   
 
 ### **1.2 Business Task Description**
 
@@ -191,11 +191,11 @@ sleep_day %>%
 
 * Created pivot table to sum the amounts of steps taken per day. Then took the average of this amount for each user and classified them as **VeryActive** (average of 12500 and more steps daily), **FairlyActive** (average of 12499-10000 steps daily), **LightlyActive** (average of 9999-7500 steps daily), **LowActive** (average of 7499-5000 steps), and **Sedentary** (average of 4999 steps or less). Using these categories and COUNTIF functions based upon the average amount of steps taken by each user in a day, we can see what percentage of users fall into each category visualized in the pie chart below:
 
-![](fitbit_segment_chart_v1.png)
+![](fitbit_segment_chart_v1.png){width=800}
 
-* Additionally, we can add the VeryActive, FairlyActive, and LightlyActive segments together to create the **‘GenerallyActiveSegment’** and the LowActive and Sedentary segments together to create the **‘LowAndSedentarySegment’** and can see that 45% of users examined in this dataset who used ‘fitbits’ in the time period examined fall into the ‘sedentary’ and ‘low active’ market segments, based upon the average amount of steps taken in a day:
+* Additionally, we can add the VeryActive, FairlyActive, and LightlyActive segments together to create the **‘GenerallyActiveSegment’** and the LowActive and Sedentary segments together to create the **‘LowAndSedentarySegment’** and can see that *45% of users examined in this dataset who used ‘fitbits’ in the time period examined fall into the ‘sedentary’ and ‘low active’ market segments*, based upon the average amount of steps taken in a day:
 
-![](fitbit_segment_chart_v2.png)
+![](fitbit_segment_chart_v2.png){width=800}
 
 * Created a pivot table to sum the total amount of active minutes (by adding the sums of the VeryActiveMinutes, FairlyActiveMinutes, and LightlyActiveMinutes columns) for each user and determined that the *majority portion of active minutes recorded for each user falls under LightlyActiveMinutes*
 
