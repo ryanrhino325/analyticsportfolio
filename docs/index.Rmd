@@ -2,12 +2,14 @@
 title: "Bellabeat Capstone Case Study"
 author: "Ryan Taylor"
 date: "2023-06-07"
-output: html_document
+output: 
+  html_document:
+    toc: true
 ---
 
-## **Bellabeat - How Can a Wellness Technology Company Play it Smart?**
+# **Bellabeat - How Can a Wellness Technology Company Play it Smart?**
 
-### **1.0 Project Introduction and Data Description**
+## **1.0 Project Introduction and Data Description**
 
 ### **1.1 Introduction**
 
@@ -47,7 +49,7 @@ It is important to note the general unreliability of the data used. Following th
 * The data collected has a relatively small sample size of 30
 * Physical tracking devices are noted to have a margin of error of +/- 10%
 
-### **2.0 Data Cleaning Process Documentation**
+## **2.0 Data Cleaning Process Documentation**
 
 ### **2.1 Step 1 - Spreadsheet Cleaning and Manipulation of Data**
 
@@ -157,7 +159,7 @@ hourly_combined_data$Hour <- hour(hourly_combined_data$ActivityHour)
 hourly_combined_data$Hour <- sprintf("%02d:00:00", hourly_combined_data$Hour)
 ```
 
-### **3.0 Data Analyzation**
+## **3.0 Data Analyzation**
 
 ### **3.1 General Summary Statistics Details and Insights**
 
@@ -238,7 +240,7 @@ ggplot(data=hourly_combined_data, aes(x = Hour, y = AverageIntensity)) +
        y = "Average Total Intensity")
 ```
 
-### **4.0 Conclusion and Recommendations**
+## **4.0 Conclusion and Recommendations**
 
 ### **4.1 Recommendations**
 
