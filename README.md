@@ -12,11 +12,11 @@ My name is Ryan Taylor and I am a dedicated and results-driven analytics profess
 
 - **Data Analysis:** Proficient in analyzing large datasets, identifying trends, and extracting valuable insights using various analytical tools and techniques.
 - **Statistical Analysis:** Skilled in applying statistical methodologies to uncover patterns, correlations, and relationships within data, enabling accurate forecasting and informed decision-making.
-- **Data Visualization:** Experienced in creating compelling visualizations and dashboards to effectively communicate complex data and insights to stakeholders.
+- **Data Visualization:** Experienced in creating compelling visualizations and dashboards in R, Excel, and Tableau to effectively communicate complex data and insights to stakeholders.
 - **Machine Learning:** Familiarity with machine learning algorithms and techniques, allowing for predictive modeling, classification, and clustering of data.
 - **Data Management:** Proficient in data cleaning, transformation, and integration to ensure data quality and reliability for analysis.
-- **Programming:** Strong programming skills in languages such as R and SQL, and proficiency in working with data analysis libraries and frameworks.
-- **Business Acumen:** Ability to understand business objectives, define analytical requirements, and translate findings into actionable recommendations to drive business growth and efficiency.
+- **Programming:** Strong programming skills in languages such as R and SQL, and proficiency in working with data analysis libraries and frameworks. Dedicated to learning and becoming proficient in other key languages such as Python.
+- **Business Acumen:** An honours graduate of Memorial University's Business Administration program, with a focus on courses in the economic, fiancial, and accounting fields of business. Ability to understand business objectives, define analytical requirements, and translate findings into actionable recommendations to drive business growth and efficiency. 
 
 ## Projects
 
